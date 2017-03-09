@@ -16,11 +16,12 @@ namespace _3._8
             int[] score1 = new int[10] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66 };
             int[] score2 = new int[10] { 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
             int[] score3 = new int[8] { 5, 4, 3, 2,1,2,3,4};
-            int[] sort = new int[20];
+           
             int[] s = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66 , 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+            int[] ex = new int[] { 38, 27, 43, 3, 9, 82, 10 };
+            int[] sort = new int[ex.Length];
 
-
-            mergesort2(s,sort);
+            mergesort2(ex,sort);
 
             //mergesort(s);
             
@@ -159,18 +160,16 @@ namespace _3._8
         static void mergesort2(int[] arr, int[] arr2)
         {
             int i, j, k;
+            
             for (i = 1; i < arr.Length; i = i * 2)
             {
-                for (j = 0; j < arr.Length; j = j + 2 * i)
+                for (j = 0; j < arr.Length; j = j+ 2 * i)
                 {
-
                     merge2(arr, j, Math.Min(j + i, arr.Length), Math.Min(j + 2 * i, arr.Length), arr2);
-
                 }
-
                 for (k = 0; k < arr.Length; ++k)
                     arr[k] = arr2[k];
-
+               
             }
 
         }
