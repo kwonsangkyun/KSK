@@ -13,7 +13,7 @@ namespace _3._10
             //float a = 5.0f;
             float mid;
             int[] arr = new int[] { 1, 2, 3, 4, 100 };
-            int[] q9num = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+            int[] q9num = new int[] {1,2,3,4,5 };
             string s = "The Curious Case of Benjamin Button";
             string ss = "marlin names this last egg nemo, a name that coral like";
             string sss = "a good - hearted and optimistic regal blue tang with short-term memory loss";
@@ -23,14 +23,14 @@ namespace _3._10
             int q, r;
             int[] arr3 = new int[10];
             int[,] rect = new int[3,5] { { 4, 2, 1, 0, 1 }, { 2, 2, 1, 0, 2 }, { 2, 2, 1, 0, 1 } };
-            int[,] mine = new int[5, 5] { { 0, 1, 1, 0, 0 }, { 0, 1, 0, 1, 1 }, { 0, 1, 1, 1, 1 }, { 0, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 } };
+            int[,] mine = new int[5, 5] { { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 } };
             int max;
 
-
+            int[] num = new int[] { 40, 80, 60 };
             //q1(980.0f);
             //Console.WriteLine(q3());
             //Console.WriteLine(q4(arr)*100+"%"); 
-            //Console.WriteLine(q5(40,80,60));
+           // Console.WriteLine(q5(num));
             //Console.WriteLine(q6(arr2));
             //Console.WriteLine(q7(1));
             //Console.WriteLine(q8(8,29));
@@ -39,22 +39,22 @@ namespace _3._10
             //q11(99, 8, out q,out r);
             //Console.WriteLine("Child: {0} Parent : {1}", q, r);
             //Console.WriteLine(q12(50, 10, 10, 10, 10));
-            //Console.WriteLine(q13(100));
-            /*
-            arr3 = q14(22);
+            Console.WriteLine(q13(17));
+           /*
+            arr3 = q14(100);
             for(int i=0;i<arr3.Length;++i)
                 Console.Write(arr3[i]+" ");
-                */
+           */
 
 
             // Console.WriteLine(q15("Anaa")); 
             //Console.WriteLine(q16_1(q9num,4)); 
-            //Console.WriteLine(q16(q9num,0,q9num.Length-1, 3));
-            // q17(sss);
-            max=q18(mine);
+           // Console.WriteLine(q16(q9num,0,q9num.Length-1, 2));
+           // q17(ss);
+           // max=q18(mine);
 
             //q19(rect);
-            Console.WriteLine(max);
+            //Console.WriteLine(max);
         }
 
         static void q1(float a)
@@ -116,21 +116,29 @@ namespace _3._10
             return avg;
         }
 
-        static float q5(int a,int b,int c)
+        static float q5(int []arr)
         {
-            int max=a;
-            float i, j, k;
+            int max=arr[0];
+            int i;
             float avg;
-            if (max < b)
-                max = b;
-            if (max < c)
-                max = c;
+            float sum=0;
+            
 
-            i = (float)a/max  * 100;
-            j = (float)b/max  * 100;
-            k = (float)c/max  * 100;
+            for (i = 1; i < arr.Length; ++i)
+            {
+                if (arr[i] > max)
+                    max = arr[i];
+            }
 
-            avg = (i + j + k) / 3;
+            for (i = 0; i < arr.Length; ++i)
+            {
+
+                sum += (float)arr[i] / (float)max * 100;
+            }
+
+          
+
+            avg = sum / arr.Length;
             return avg;
         }
 
@@ -266,28 +274,48 @@ namespace _3._10
 
         static int q13(int n)
         {
-            int count=0;
-
-            while (n > 0)
-            {
-                if (n - 5 >= 0)
+            int count5=0;
+            int max = 0;
+            int count3 = 0;
+            int sugar = n;
+              while (sugar - 5 >= 0)
                 {
-                    count++;
-                    n -= 5;
+                    max++;
+                    sugar -= 5;
                 }
-                else {
-                    count++;
-                    n -= 3;
+
+                for (int i = max; i >= 0; --i)
+                {
+                    sugar = n;
+                    sugar = sugar - (i * 5);
+                    count3 = 0;
+
+                    if (sugar % 3 == 0)
+                    {
+                        count5 = i;
+                    while (sugar - 3 >= 0)
+                    {
+                        count3++;
+                        sugar -= 3;
+                    }
+                        break;
+                    }
+                
                 }
-            }
-            return count;
+
+            
+                return count5 + count3;
+          
+            
+            
         }
 
         static int[] q14(int n)
         {
             int[] arr = new int[10];
             int i;
-            int quotient;
+           
+           int remainder;
             for (i = 1; i <= n; ++i)
             {
 
@@ -295,9 +323,23 @@ namespace _3._10
                     arr[i] += 1;
                 else
                 {
-                    quotient = i / 10;
-                    arr[quotient] += 1;
-                    arr[i % 10] += 1;
+                    if (i < 100)
+                    {
+                     
+                        arr[i / 10] += 1;
+                        arr[i % 10] += 1;
+                    }
+                    else
+                    {
+                        
+                        arr[i / 100] += 1;
+
+                        remainder = i % 100;
+
+                        arr[remainder / 10]+=1;
+                        arr[remainder % 10] += 1;
+
+                    }
                 }
                 
             }
@@ -395,17 +437,29 @@ namespace _3._10
         {
             int i;
             bool b=false;
+
+            string[] result = s.Split(' ');
+            /*
+            for (i = 0; i < result.Length; ++i)
+            {
+                if (result[i] == "nemo")
+                    b = true;
+            
+            }
+            */
+           
             for (i = 0; i < s.Length; ++i)
             {
                 if (s[i] == 'n' && s[i + 1] == 'e' && s[i + 2] == 'm' && s[i + 3] == 'o')
                 {
-                    Console.WriteLine("found");
                     b = true;
                 }
                 
             }
             if(b !=true)
                 Console.WriteLine("missing");
+            else
+                Console.WriteLine("found");
         }
         
         static int q18(int[,] arr)
@@ -442,10 +496,13 @@ namespace _3._10
                             
                             for (k = left; k > 0; --k)
                             {
-                                for (l = 0; l <= k; ++l)
+                                for (l = 0; l < k; ++l)
                                 {
                                     if (col + 1 >= arr.GetLength(1) || row + 1 >= arr.GetLength(0))
+                                    {
+                                        sucecc = 0;
                                         break;
+                                    }
                                     if (rightdown(arr, row, col) == false)
                                     {
                                         sucecc = 0;
@@ -459,10 +516,13 @@ namespace _3._10
                                 if (sucecc == 0)
                                     break;
                                 
-                                for (l = 0; l <= k; ++l)
+                                for (l = 0; l < k; ++l)
                                 {
                                     if (col + 1 >= arr.GetLength(1) || row - 1 < 0)
+                                    {
+                                        sucecc = 0;
                                         break;
+                                    }
                                     if (rightup(arr, row, col) == false)
                                     {
                                         sucecc = 0;
@@ -474,10 +534,13 @@ namespace _3._10
                                 }
                                 if (sucecc == 0)
                                     break;
-                                for (l = 0; l <= k; ++l)
+                                for (l = 0; l < k; ++l)
                                 {
                                     if (col - 1 < 0 || row - 1 < 0)
+                                    {
+                                        sucecc = 0;
                                         break;
+                                    }
                                     if (leftup(arr, row, col) == false)
                                     {
                                         sucecc = 0;
