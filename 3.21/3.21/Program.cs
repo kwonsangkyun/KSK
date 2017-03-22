@@ -51,6 +51,7 @@ namespace _3._21
             TreeNode cur = null;
             TreeNode p;
             int temp=0;
+            int temp2;
             if (root == null)
             {
                 Console.WriteLine("Empty Heap");
@@ -100,10 +101,49 @@ namespace _3._21
                 cur.parent = null;
                 temp = root.val;
                 root.val = cur.val;
-                if (tail.leftchild != null)
-                    makeheap2(tail.leftchild);
-                else
-                    makeheap2(tail);
+                p = root;
+
+                while (p != null)
+                {
+                    if (p.leftchild != null && p.rightchild != null && p.val < p.leftchild.val && p.val < p.rightchild.val)
+                    {
+                        if (p.leftchild.val > p.rightchild.val)
+                        {
+                            temp2 = p.leftchild.val;
+                            p.leftchild.val = p.val;
+                            p.val = temp2;
+                            p = p.leftchild;
+                        }
+                        else
+                        {
+                            temp2 = p.rightchild.val;
+                            p.rightchild.val = p.val;
+                            p.val = temp2;
+                            p = p.rightchild;
+                        }
+                    }
+                    else if (p.leftchild!=null && (p.rightchild ==null ||p.val < p.rightchild.val))
+                    {
+                        temp2 = p.leftchild.val;
+                        p.leftchild.val = p.val;
+                        p.val = temp2;
+                        p = p.leftchild;
+                    }
+                    else if (p.rightchild !=null &&p.val < p.leftchild.val)
+                    {
+
+                        temp2 = p.rightchild.val;
+                        p.rightchild.val = p.val;
+                        p.val = temp2;
+                        p = p.rightchild;
+                    }
+                    else
+                        break;
+
+                    
+                }
+
+
             }
             return temp;
         }
