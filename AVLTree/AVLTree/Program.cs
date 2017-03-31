@@ -12,12 +12,14 @@ namespace AVLTree
         {
             Avltree avl = new Avltree();
 
-            avl.insert(9);
-            avl.insert(8);
-            avl.insert(11);
-            avl.insert(5);
-            avl.insert(3);
-            avl.insert(1);
+            avl.insert(ref avl.root, 9);
+            avl.insert(ref avl.root, 8);
+            avl.insert(ref avl.root, 11);
+            avl.insert(ref avl.root, 5);
+            avl.insert(ref avl.root, 3);
+           
+
+            avl.delete(ref avl.root, 5);
         }
 
         class AVLNode
@@ -36,9 +38,13 @@ namespace AVLTree
 
         class Avltree
         {
-             AVLNode root=null;
+            public AVLNode root;
+            public Avltree()
+            {
+                root = null;
+            }
 
-           
+
             AVLNode rebalance(AVLNode node)
             {
                 int bal_num = get_balanced_num(node);
@@ -105,44 +111,107 @@ namespace AVLTree
                 else
                     return get_height(node.left) - get_height(node.right);
             }
-
-
-           public void insert(int num)
+            public AVLNode insert(ref AVLNode node, int num)
             {
-                AVLNode temp = new AVLNode();
-                AVLNode cur = root;
-                AVLNode parent = cur;
 
-                temp.val = num;
-                temp.left = null;
-                temp.right = null;
-               
-                if (root == null)
-                    root = temp;
+                if (node == null)
+                {
+                    node = new AVLNode();
+                    node.val = num;
+                    node.left = null;
+                    node.right = null;
+                }
+                else if (num < node.val)
+                {
+                    node.left = insert(ref node.left, num);
+                    node = rebalance(node);
+                }
                 else
                 {
-                    while (cur != null)
-                    {
-                        parent = cur;
-                        if (num < cur.val)
-                            cur = cur.left;
-                        else
-                            cur = cur.right;
-                    }
-                    if (num < parent.val)
-                        parent.left = temp;
-                    else
-                        parent.right = temp;
-
-                    parent =rebalance(parent);
+                    node.right = insert(ref node.right, num);
+                    node = rebalance(node);
                 }
 
+                return node;
+
             }
+            public void delete(ref AVLNode root, int num)
+            {
+                AVLNode parent;
+                AVLNode cur;
+                AVLNode temp;
+                AVLNode Succ, Succ_parent;
+                parent = null;
+                cur = root;
+
+                while (cur != null && cur.val != num)
+                {
+                    parent = cur;
+                    if (num < cur.val)
+                        cur = cur.left;
+                    else
+                        cur = cur.right;
+                }
+
+                if (cur == null)
+                    Console.WriteLine("not exist");
+
+                if (cur.left == null && cur.right == null)
+                {
+                    if (parent != null)
+                    {
+                        if (parent.left == cur)
+                            parent.left = null;
+                        else
+                            parent.right = null;
+                    }
+                    else
+                        root = null;
+                }
+                else if ((cur.left == null && cur.right != null) || (cur.left != null && cur.right == null))
+                {
+                    if (cur.left == null)
+                        temp = cur.right;
+                    else
+                        temp = cur.left;
+
+                    if (parent != null)
+                    {
+                        if (parent.left.val == cur.val)
+                            parent.left = temp;
+                        else
+                            parent.right = temp;
+                    }
+                    else
+                        root = temp;
+                }
+                else
+                {
+                    Succ_parent = cur;
+                    Succ = cur.right;
+                    while (Succ.left != null)
+                    {
+                        Succ_parent = Succ;
+                        Succ = Succ.left;
+                    }
+
+                    if (Succ_parent.left.val == Succ.val)
+                        Succ_parent.left = Succ.right;
+                    else
+                        Succ_parent.right = Succ.right;
+
+                    cur.val = Succ.val;
+
+                }
+
+                root = rebalance(root);
+            }
+
         }
-        
-      
 
 
-      
+
+
+
     }
 }
